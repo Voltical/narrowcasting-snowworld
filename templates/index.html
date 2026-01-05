@@ -1,0 +1,563 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lumora – Fullscreen Base</title>
+
+  <style>
+    :root{
+      --bg0:#07080a;
+      --bg1:#0b0d10;
+
+      --glass: rgba(18, 20, 24, .62);
+      --glass2: rgba(14, 16, 20, .55);
+
+      --stroke: rgba(255,255,255,.08);
+      --stroke2: rgba(255,255,255,.12);
+
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.62);
+      --muted2: rgba(255,255,255,.45);
+
+      --pill: rgba(255,255,255,.08);
+      --pillA: rgba(255,255,255,.15);
+
+      --shadow: 0 24px 80px rgba(0,0,0,.55);
+
+      --r-out: 34px;
+      --r-xl: 28px;
+      --r-lg: 22px;
+      --r-md: 16px;
+
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: var(--font);
+      background:
+        radial-gradient(1000px 700px at 20% 10%, rgba(255,170,110,.10), transparent 60%),
+        radial-gradient(900px 600px at 85% 80%, rgba(120,170,255,.08), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      color: var(--text);
+      overflow:hidden;
+    }
+
+    /* FULLSCREEN FRAME */
+    .frame{
+      height: 100vh;
+      width: 100vw;
+      padding: 18px;
+    }
+
+    .shell{
+      height: 100%;
+      width: 100%;
+      border-radius: calc(var(--r-out) + 10px);
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    /* Inner vignette like the screenshot */
+    .shell::before{
+      content:"";
+      position:absolute; inset:-120px;
+      background:
+        radial-gradient(1200px 650px at 20% 20%, rgba(255,255,255,.07), transparent 70%),
+        radial-gradient(900px 550px at 75% 65%, rgba(255,255,255,.05), transparent 70%);
+      filter: blur(2px);
+      opacity:.9;
+      pointer-events:none;
+    }
+
+    .content{
+      position:relative;
+      height:100%;
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+    }
+
+    /* TOPBAR */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 14px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight: 760;
+      letter-spacing:.8px;
+      user-select:none;
+      padding-left: 6px;
+    }
+    .spark{
+      width: 18px; height: 18px;
+      border-radius: 6px;
+      background: conic-gradient(from 180deg, rgba(255,255,255,.95), rgba(255,255,255,.20), rgba(255,255,255,.95));
+      box-shadow: 0 0 18px rgba(255,255,255,.12);
+      transform: rotate(22deg);
+    }
+
+    .navlinks{
+      display:flex;
+      gap: 22px;
+      align-items:center;
+      justify-content:center;
+      flex: 1;
+    }
+    .navlinks a{
+      text-decoration:none;
+      color: rgba(255,255,255,.72);
+      font-size: 13px;
+      padding: 8px 2px;
+    }
+    .navlinks a:hover{ color: rgba(255,255,255,.92); }
+
+    .btn-pill{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+    }
+    .btn-pill:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.11);
+      border-color: rgba(255,255,255,.18);
+    }
+    .btn-pill .mini{
+      width: 20px; height: 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      font-size: 12px;
+      line-height: 1;
+      opacity: .9;
+    }
+
+    /* MAIN AREA */
+    .main{
+      flex: 1;
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+      min-height: 0;
+    }
+
+    /* HERO */
+    .hero{
+      flex: 1;
+      min-height: 360px;
+      border-radius: var(--r-xl);
+      border: 1px solid var(--stroke);
+      background: var(--glass);
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:stretch;
+      justify-content:space-between;
+    }
+
+    /* Hero image + overlay */
+    .hero::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.30) 45%, rgba(0,0,0,.42) 100%),
+        radial-gradient(900px 520px at 25% 35%, rgba(255,170,110,.18), transparent 60%),
+        url("https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=2200&q=80");
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.02);
+      filter: saturate(1.06) contrast(1.05);
+    }
+
+    .hero-inner{
+      position:relative;
+      width:100%;
+      padding: 26px;
+      display:flex;
+      gap: 18px;
+      justify-content:space-between;
+      align-items:flex-start;
+    }
+
+    .hero-left{
+      max-width: 620px;
+      padding: 10px 8px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      margin-top: 6px;
+    }
+
+    .hero h1{
+      margin:0 0 10px 0;
+      font-size: clamp(34px, 3.8vw, 56px);
+      line-height: 1.02;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+
+    .hero p{
+      margin:0 0 18px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      max-width: 52ch;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary{
+      background: rgba(255,255,255,.92);
+      color: rgba(10,12,16,.96);
+      border-color: rgba(255,255,255,0);
+      font-weight: 650;
+    }
+
+    .btn-ghost{
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    /* Top-right tabs like screenshot */
+    .tabs-wrap{
+      display:flex;
+      align-items:flex-start;
+      justify-content:flex-end;
+      min-width: 320px;
+      padding-top: 6px;
+    }
+
+    .tabs{
+      display:flex;
+      gap: 8px;
+      padding: 8px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .tab{
+      border: 1px solid transparent;
+      background: var(--pill);
+      color: rgba(255,255,255,.78);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 12px;
+      cursor:pointer;
+      transition: transform .15s ease, background .2s ease, border-color .2s ease, color .2s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .tab:hover{ transform: translateY(-1px); background: rgba(255,255,255,.11); }
+    .tab.is-active{
+      background: var(--pillA);
+      color: rgba(255,255,255,.95);
+      border-color: rgba(255,255,255,.18);
+    }
+
+    /* BOTTOM CARDS ROW */
+    .bottom{
+      display:grid;
+      grid-template-columns: 1.35fr 1fr 1fr;
+      gap: 14px;
+      min-height: 190px;
+    }
+
+    .card{
+      border-radius: var(--r-lg);
+      border: 1px solid var(--stroke);
+      background: var(--glass2);
+      overflow:hidden;
+      position:relative;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      min-height: 180px;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute; inset:0;
+      opacity: .95;
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.06) contrast(1.05);
+      transform: scale(1.03);
+    }
+
+    .bg-chair::before{
+      background-image:
+        linear-gradient(90deg, rgba(0,0,0,.58), rgba(0,0,0,.22)),
+        url("https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1600&q=80");
+    }
+    .bg-forms::before{
+      background-image:
+        linear-gradient(90deg, rgba(0,0,0,.50), rgba(0,0,0,.20)),
+        url("https://images.unsplash.com/photo-1582582429416-5b5b3c1f18a1?auto=format&fit=crop&w=1600&q=80");
+    }
+    .bg-close::before{
+      background-image:
+        linear-gradient(90deg, rgba(0,0,0,.50), rgba(0,0,0,.20)),
+        url("https://images.unsplash.com/photo-1549497538-303791108f95?auto=format&fit=crop&w=1600&q=80");
+    }
+
+    .inner{
+      position:relative;
+      height:100%;
+      padding: 18px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .badge{
+      align-self:flex-start;
+      font-size: 11px;
+      color: rgba(255,255,255,.72);
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .card h3{
+      margin: 10px 0 6px 0;
+      font-size: 16px;
+      letter-spacing: .2px;
+    }
+    .card p{
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted2);
+      line-height: 1.45;
+      max-width: 48ch;
+    }
+
+    .link{
+      margin-top: 10px;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      color: rgba(255,255,255,.88);
+      font-size: 12px;
+      text-decoration:none;
+      opacity:.9;
+    }
+    .link:hover{ opacity: 1; }
+
+    .arrow{
+      width: 20px; height: 20px;
+      border-radius: 999px;
+      display:grid; place-items:center;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      font-size: 12px;
+    }
+
+    .float-controls{
+      position:absolute;
+      right: 14px;
+      bottom: 14px;
+      display:flex;
+      gap: 8px;
+    }
+    .ctl{
+      width: 30px; height: 30px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.10);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition: transform .15s ease, background .2s ease;
+    }
+    .ctl:hover{ transform: translateY(-1px); background: rgba(255,255,255,.14); }
+    .ctl span{
+      width: 6px; height: 6px; border-radius: 99px;
+      background: rgba(255,255,255,.9);
+      opacity:.85;
+      display:block;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      body{ overflow:auto; }
+      .frame{ padding: 12px; }
+      .content{ padding: 12px; }
+      .navlinks{ display:none; }
+      .tabs-wrap{ min-width: unset; }
+      .hero-inner{ flex-direction:column; }
+      .bottom{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="frame">
+    <div class="shell">
+      <div class="content">
+        <header class="topbar">
+          <div class="brand">
+            <div class="spark" aria-hidden="true"></div>
+            <span>LUMORA</span>
+          </div>
+
+          <nav class="navlinks" aria-label="Primary">
+            <a href="#">Our Story</a>
+            <a href="#">Collections</a>
+            <a href="#">Spaces</a>
+            <a href="#">Services</a>
+          </nav>
+
+          <button class="btn-pill" type="button">
+            Contact Us <span class="mini" aria-hidden="true">↗</span>
+          </button>
+        </header>
+
+        <main class="main">
+          <section class="hero" aria-label="Hero">
+            <div class="hero-inner">
+              <div class="hero-left">
+                <h1 id="heroTitle">FURNITURE DESIGNED FOR<br/>MODERN LIVING</h1>
+                <p id="heroText">
+                  Crafted with precision, designed for comfort, and built to elevate everyday spaces.
+                </p>
+
+                <div class="hero-actions">
+                  <button class="btn-pill btn-primary" type="button">Shop Collection</button>
+                  <button class="btn-pill btn-ghost" type="button">View Lookbook</button>
+                </div>
+              </div>
+
+              <div class="tabs-wrap">
+                <div class="tabs" role="tablist" aria-label="Spaces">
+                  <button class="tab is-active" role="tab" data-space="living" aria-selected="true">Living</button>
+                  <button class="tab" role="tab" data-space="bedroom" aria-selected="false">Bedroom</button>
+                  <button class="tab" role="tab" data-space="workspace" aria-selected="false">Workspace</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="bottom" aria-label="Highlights">
+            <article class="card bg-chair">
+              <div class="inner">
+                <div class="badge">Featured</div>
+                <div>
+                  <h3>Signature Lounge Chair</h3>
+                  <a class="link" href="#">
+                    Shop now <span class="arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card bg-forms">
+              <div class="inner">
+                <div class="badge">Featured</div>
+                <div>
+                  <h3>Refined Forms</h3>
+                  <p>Simplified components for cleaner design.</p>
+                </div>
+
+                <div class="float-controls" aria-hidden="true">
+                  <button class="ctl" type="button"><span></span></button>
+                  <button class="ctl" type="button"><span></span></button>
+                  <button class="ctl" type="button"><span></span></button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card bg-close">
+              <div class="inner">
+                <div class="badge">Closer Look</div>
+                <div>
+                  <h3>Closer Look</h3>
+                  <p>Explore textures, finishes and details.</p>
+                </div>
+
+                <div class="float-controls" aria-hidden="true">
+                  <button class="ctl" type="button"><span></span></button>
+                  <button class="ctl" type="button"><span></span></button>
+                </div>
+              </div>
+            </article>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const data = {
+      living: {
+        title: "FURNITURE DESIGNED FOR\nMODERN LIVING",
+        text: "Crafted with precision, designed for comfort, and built to elevate everyday spaces."
+      },
+      bedroom: {
+        title: "CALM ESSENTIALS FOR\nBETTER REST",
+        text: "Soft textures, warm tones, and minimal silhouettes made for a quieter bedroom."
+      },
+      workspace: {
+        title: "CLEAN LINES FOR\nFOCUSED WORK",
+        text: "Functional pieces with a modern edge—built to keep your workspace effortless."
+      }
+    };
+
+    const titleEl = document.getElementById("heroTitle");
+    const textEl = document.getElementById("heroText");
+    const tabs = document.querySelectorAll(".tab");
+
+    function setSpace(space){
+      const entry = data[space];
+      if(!entry) return;
+
+      titleEl.innerHTML = entry.title.replaceAll("\n","<br/>");
+      textEl.textContent = entry.text;
+
+      tabs.forEach(btn => {
+        const active = btn.dataset.space === space;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-selected", active ? "true" : "false");
+      });
+    }
+
+    tabs.forEach(btn => btn.addEventListener("click", () => setSpace(btn.dataset.space)));
+  </script>
+</body>
+</html>
