@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template, request, redirect, url_for
 from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
@@ -43,6 +43,31 @@ def get_slides(location):
     ))
     return jsonify(slides)
 
+@app.route("/admin", methods=["GET", "POST"])
+def admin():
+    if request.method == "POST":
+        print(request.form)  
+
+        slide = {
+            "title": request.form.get("title"),
+            "text": request.form.get("text"),
+            "location": request.form.get("location"),
+            "duration": int(request.form.get("duration", 8)),
+            "active": True
+        }
+
+        slides_collection.insert_one(slide)
+        return redirect(url_for("admin"))
+
+    return render_template("admin.html")
+
+@app.route("/admin/slides/<location>/deactivate")
+def deactivate_slides(location):
+    slides_collection.update_many(
+        {"location": location},
+        {"$set": {"active": False}}
+    )
+    return redirect(url_for("admin"))
 
 
 if __name__ == "__main__":

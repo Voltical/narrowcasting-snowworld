@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Slides</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+
+  </head>
+  <body>
+    <h1>slide toevoegen</h1>
+    <form method="POST">
+      <label>Titel</label>
+      <input type="text" name="title" required />
+
+      <label>Tekst</label>
+      <input type="text" name="text" required />
+
+      <label>Locatie</label>
+      <select name="location">
+        <option value="entree">Entree</option>
+        <option value="piste">Piste</option>
+        <option value="horeca">Horeca</option>
+      </select>
+
+      <label>Duur (seconden)</label>
+      <input type="number" name="duration" value="8" />
+
+      <button type="submit">Slide opslaan</button>
+    </form>
+  </body>
+</html>
