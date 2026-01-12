@@ -21,7 +21,7 @@ slides_collection = db["slides"]
 
 @app.route("/")
 def home():
-    return "Flask werkt!"
+    return render_template("index.html")
 
 @app.route("/add-slide")
 def add_slide():
@@ -61,14 +61,37 @@ def admin():
 
     return render_template("admin.html")
 
-@app.route("/admin/slides/<location>/deactivate")
-def deactivate_slides(location):
-    slides_collection.update_many(
-        {"location": location},
-        {"$set": {"active": False}}
-    )
-    return redirect(url_for("admin"))
+# @app.route("/admin/slides/<location>/deactivate")
+# def deactivate_slides(location):
+#     slides_collection.update_many(
+#         {"location": location},
+#         {"$set": {"active": False}}
+#     )
+#     return redirect(url_for("admin"))
 
+# @app.route("/screens/entree")
+# def screen_entree():
+#     slides = list(slides_collection.find(
+#         {"location": "entree", 
+#         "active": True}
+#     ))
+#     return render_template("screen_entree.html", slides=slides)
+
+# @app.route("/screens/restaurant")
+# def screen_restaurant():
+#     slides = list(slides_collection.find(
+#         {"location": "restaurant", 
+#         "active": True}
+#     ))
+#     return render_template("screen_restaurant.html", slides=slides)
+
+# @app.route("screens/lockers")
+# def screen_lockers():
+#     slides = list(slides_collection.find(
+#         {"location": "lockers", 
+#         "active": True}
+#     ))
+#     return render_template("screen_lockers.html", slides=slides)
 
 if __name__ == "__main__":
     print("Flask wordt gestart")
