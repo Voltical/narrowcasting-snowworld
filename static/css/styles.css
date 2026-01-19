@@ -16,19 +16,19 @@ body {
 }
 
 .bg {
-  /* The image used */
+ 
   background-image: url("../images/background.jpg");
 
-  /* Full height */
+  
   height: 100%;
 
-  /* Center and scale the image nicely */
+ 
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-/* Liquid glass box */
+
 .glass-box {
     position: absolute;
     top: 40px;
@@ -70,7 +70,7 @@ body {
 
 .content {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* links leeg, rechts content */
+    grid-template-columns: 2fr 1fr; 
     justify-items: end;
 }
 
