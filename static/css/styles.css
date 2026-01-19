@@ -51,10 +51,111 @@ body {
     backdrop-filter: blur(14px) saturate(130%);
     -webkit-backdrop-filter: blur(14px) saturate(130%);
 
-    border-radius: 16px;
+    
     border: 1px solid rgba(255, 255, 255, 0.15);
 
     box-shadow:
         0 8px 30px rgba(0, 0, 0, 0.6),
         inset 0 1px 1px rgba(255, 255, 255, 0.08);
 }
+
+
+.overlay {
+    background: rgba(0,0,0,0.35);
+    height: 100%;
+    padding: 20px;
+}
+
+
+
+.content {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* links leeg, rechts content */
+    justify-items: end;
+}
+
+
+.card {
+    background: rgba(255,255,255,0.85);
+    padding: 15px;
+    
+}
+
+.left-panel,
+.right-panel {
+    width: 100%;
+    max-width: 420px;
+    margin-left: auto;
+    padding-top: 100px;
+    padding-right: 20px;
+}
+
+
+.big-number {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+.lockers .locker-bars .bar {
+    height: 8px;
+    background: #ccc;
+    border-radius: 5px;
+    margin-top: 8px;
+}
+
+.temps {
+    display: flex;
+    gap: 10px;
+}
+
+.temp {
+    flex: 1;
+    text-align: center;
+}
+
+.temp p {
+    font-size: 32px;
+    margin-top: 10px;
+}
+
+
+
+.graph {
+    height: 60px;
+    background: repeating-linear-gradient(
+        to right,
+        #888,
+        #888 5px,
+        transparent 5px,
+        transparent 10px
+    );
+    margin-top: 15px;
+}
+
+.small-cards {
+    display: flex;
+    gap: 10px;
+}
+
+.small-cards .card {
+    flex: 1;
+    text-align: center;
+}
+
+.parking .progress {
+    background: #ddd;
+    height: 10px;
+    border-radius: 5px;
+  
+    margin-top: 40px;
+
+
+}
+
+.progress-bar {
+    width: 41%;
+    height: 100%;
+    background: #4caf50;
+    border-radius: 5px;
+}
+
