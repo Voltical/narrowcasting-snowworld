@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <title>SnowWorld Narrowcasting</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/screen.css') }}">
+</head>
+<body>
+  <div class="screen">
+
+    <header class="top">
+      <span>Welcome to</span>
+      <strong>SnowWorld</strong>
+    </header>
+
+    <div class="card lockers">
+      <h3>Lockers</h3>
+      <div class="big-number" id="lockers">67</div>
+      <span>Lockers available</span>
+    </div>
+
+    <div class="card temps">
+      <div>
+        <span>Piste Temp</span>
+        <strong id="piste-temp">-5°C</strong>
+      </div>
+      <div>
+        <span>Outdoor Temp</span>
+        <strong id="outdoor-temp">23°C</strong>
+      </div>
+    </div>
+
+    <div class="card parking">
+      <h3>Parking</h3>
+      <div class="big-number" id="parking">41</div>
+      <span>plekken vrij</span>
+    </div>
+
+  </div>
+<script src="{{ url_for('static', filename='js/screen.js') }}"></script>
+</body>
+
+</html>
